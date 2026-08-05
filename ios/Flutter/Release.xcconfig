@@ -1,0 +1,5 @@
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
+#include "Generated.xcconfig"
+// Safe default. Local.xcconfig overrides this for device development.
+GOOGLE_MAPS_API_KEY =
+#include? "Local.xcconfig"  // per-developer settings (signing team); untracked
