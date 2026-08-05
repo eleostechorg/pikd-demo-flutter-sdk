@@ -1,0 +1,4 @@
+// Copy to Local.xcconfig and replace the placeholders. Local.xcconfig is
+// ignored by Git and must never be committed.
+DEVELOPMENT_TEAM = YOUR_APPLE_TEAM_ID
+GOOGLE_MAPS_API_KEY = YOUR_IOS_GOOGLE_MAPS_KEY
