@@ -11,6 +11,7 @@ coverage/
 # Android local/generated files
 android/.gradle/
 android/local.properties
+android/keys.properties
 android/**/build/
 
 # iOS local/generated files

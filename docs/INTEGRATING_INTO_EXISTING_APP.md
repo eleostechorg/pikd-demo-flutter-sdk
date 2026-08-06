@@ -38,6 +38,8 @@ class MainActivity : PikdFlutterActivity()
 
 - Declare location permissions when using Explore.
 - Configure `com.google.android.geo.API_KEY` with your Maps key.
+- In this demo, copy `android/keys.properties.example` to the ignored
+  `android/keys.properties` file and set `MAPS_API_KEY` before running it.
 - Only keep one expensive Android platform view active during AR. Unmount a
   Google Map before mounting `PikdArView`, then recreate it after AR closes.
 
