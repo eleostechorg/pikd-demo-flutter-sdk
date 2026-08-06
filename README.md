@@ -105,13 +105,25 @@ Create or select a Google Maps Android key that is enabled for Maps SDK for
 Android and restricted to the demo application ID
 `app.pikd.flutter.demo` plus the signing certificate used for the build.
 
+Create the ignored local Android configuration:
+
 ```bash
-export MAPS_API_KEY=YOUR_ANDROID_GOOGLE_MAPS_KEY
+cp android/keys.properties.example android/keys.properties
+```
+
+Set your key in `android/keys.properties`:
+
+```properties
+MAPS_API_KEY=YOUR_ANDROID_GOOGLE_MAPS_KEY
+```
+
+```bash
 FLUTTER_DEVICE_ID=YOUR_ANDROID_DEVICE ./scripts/run-android.sh
 ```
 
-The script runs dependency setup and launches Flutter with the ignored PIKD
-configuration. Running `flutter run` manually with
+The script refuses to build if the Android Maps key is absent, then runs
+dependency setup and launches Flutter with the ignored PIKD configuration.
+Running `flutter run` manually with
 `--dart-define-from-file=config/pikd.local.json` remains supported.
 
 The demo already uses `PikdFlutterActivity`, API 24, camera/location permissions,
@@ -150,6 +162,7 @@ lib/tab_bar.dart                      demo navigation shell
 | A PIKD package cannot be resolved | Confirm that pub.dev is reachable and run `flutter pub get` again. |
 | Configuration-required screen | Confirm all four values exist in `config/pikd.local.json` and the run command uses `--dart-define-from-file`. |
 | Blank or grey map | Check Maps SDK enablement, application/bundle restrictions, certificate restriction, and the platform-specific key. |
+| Android runner reports missing Maps configuration | Copy `android/keys.properties.example` to `android/keys.properties` and set `MAPS_API_KEY`. |
 | Map works but no collectible appears | Use the test coordinate PIKD gave you after configuring your supplied asset and location. |
 | No Collect action | Move within range or use the demo QA radius control. |
 | AR camera does not open | Use a physical supported device and grant camera/location permissions. |

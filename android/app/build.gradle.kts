@@ -1,8 +1,16 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+val mapsProperties = Properties()
+val mapsPropertiesFile = rootProject.file("keys.properties")
+if (mapsPropertiesFile.isFile) {
+    mapsPropertiesFile.inputStream().use { mapsProperties.load(it) }
 }
 
 android {
@@ -30,12 +38,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        // Google Maps API key for the Explore module. Provide it at build time:
-        //   flutter run -PMAPS_API_KEY=YOUR_KEY   (or set MAPS_API_KEY in gradle.properties)
+        // Google Maps API key for the Explore module. The public demo runner
+        // requires this ignored local file before building:
+        //   android/keys.properties (see keys.properties.example)
         manifestPlaceholders["MAPS_API_KEY"] =
-            (project.findProperty("MAPS_API_KEY") as String?)
-                ?: System.getenv("MAPS_API_KEY")
-                ?: ""
+            mapsProperties.getProperty("MAPS_API_KEY")?.trim().orEmpty()
     }
 
     buildTypes {
