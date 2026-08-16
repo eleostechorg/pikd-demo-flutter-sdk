@@ -1,5 +1,5 @@
 package app.pikd.flutter.demo
 
-import app.pikd.flutter.ar.PikdFlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : PikdFlutterActivity()
+class MainActivity : FlutterFragmentActivity()
