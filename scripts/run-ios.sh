@@ -16,11 +16,8 @@ LOCAL_XCCONFIG="$PIKD_DEMO_ROOT/ios/Flutter/Local.xcconfig"
   exit 1
 }
 
-require_command pod
+require_swiftpm_flutter
 prepare_flutter
-# Refresh CocoaPods specs so a newly published PIKDARKit release resolves on a
-# first run even when the local CDN cache predates it.
-(cd "$PIKD_DEMO_ROOT/ios" && pod install --repo-update)
 
 if [ -n "${FLUTTER_DEVICE_ID:-}" ]; then
   flutter run -d "$FLUTTER_DEVICE_ID" \

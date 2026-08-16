@@ -12,6 +12,18 @@ require_command() {
   }
 }
 
+require_swiftpm_flutter() {
+  require_command flutter
+  local flutter_version
+  flutter_version="$(flutter --version | sed -n 's/^Flutter \([0-9][0-9.]*\).*/\1/p' | head -n 1)"
+  local major minor
+  IFS=. read -r major minor _ <<< "$flutter_version"
+  if [ -z "$major" ] || [ -z "$minor" ] || (( major < 3 || (major == 3 && minor < 44) )); then
+    echo "iOS SwiftPM support requires Flutter 3.44 or later; found ${flutter_version:-unknown}." >&2
+    exit 1
+  fi
+}
+
 require_demo_config() {
   if [ ! -f "$PIKD_CONFIG_FILE" ]; then
     echo "Missing local PIKD configuration: $PIKD_CONFIG_FILE" >&2

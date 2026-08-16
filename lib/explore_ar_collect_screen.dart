@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kDebugMode, TargetPlatform;
 import 'package:flutter/material.dart';
+import 'package:local_auth_android/local_auth_android.dart';
 import 'package:pikd_flutter_ar/pikd_flutter_ar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart' show Geolocator;
@@ -113,6 +114,56 @@ class _ExploreArCollectScreenState extends State<ExploreArCollectScreen> {
   bool _pinCleared = false;
 
   bool get _isPinned => widget.collectible != null && !_pinCleared;
+
+  /// Android-only demo regression check for hosts that use AndroidX
+  /// FragmentActivity biometric integrations.
+  ///
+  /// This belongs on the real collect screen rather than the lightweight package
+  /// example so a tester can authenticate before and after the complete
+  /// Explore → Collect → AR → close → re-enter lifecycle. [kDebugMode] removes
+  /// the control from release builds; it is not PIKD product UI or SDK API.
+  Future<void> _verifyBiometricCompatibility() async {
+    final auth = LocalAuthAndroid();
+    try {
+      if (!await auth.isDeviceSupported()) {
+        if (mounted) {
+          PikdToast.show(
+            context,
+            type: PikdToastType.info,
+            title: 'Biometrics unavailable',
+            description: 'This device does not support biometric authentication.',
+          );
+        }
+        return;
+      }
+
+      final authenticated = await auth.authenticate(
+        localizedReason: 'Verify biometric authentication alongside PIKD AR.',
+        authMessages: const [],
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
+      if (!mounted) return;
+      PikdToast.show(
+        context,
+        type: authenticated ? PikdToastType.success : PikdToastType.info,
+        title: authenticated ? 'Biometric check passed' : 'Biometric check cancelled',
+        description: authenticated
+            ? 'Authentication works while the PIKD AR flow is active.'
+            : 'Try again when you are ready to authenticate.',
+      );
+    } catch (error) {
+      if (!mounted) return;
+      PikdToast.show(
+        context,
+        type: PikdToastType.failed,
+        title: 'Biometric check failed',
+        description: '$error',
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -765,6 +816,26 @@ class _ExploreArCollectScreenState extends State<ExploreArCollectScreen> {
                   colorFilter: ColorFilter.mode(c.textPrimary, BlendMode.srcIn)),
             ),
           ),
+
+          // The actual demo screen is the only meaningful place to verify that
+          // Android FragmentActivity plugins still work through AR close/re-entry.
+          // This is an Android-only regression fixture: iOS has no comparable
+          // host-activity contract. Debug builds expose it; production builds
+          // elide it entirely via the compile-time [kDebugMode] constant.
+          if (kDebugMode && defaultTargetPlatform == TargetPlatform.android)
+            Positioned(
+              top: 52,
+              right: 72,
+              child: Semantics(
+                button: true,
+                label: 'Verify biometric authentication',
+                child: _LiquidGlassButton(
+                  tint: c.glass,
+                  onTap: _verifyBiometricCompatibility,
+                  child: Icon(Icons.fingerprint, size: 24, color: c.textPrimary),
+                ),
+              ),
+            ),
 
           // Bottom-centre Collect button (RN v2Primary box + pikdV2Collect glyph).
           if (showChrome)

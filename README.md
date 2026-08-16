@@ -30,7 +30,7 @@ From PIKD:
 
 From your team:
 
-- Flutter 3.38 or later with Dart 3.10 or later.
+- Flutter 3.44 or later with Dart 3.10 or later.
 - Android Studio/Android SDK and JDK 17 for Android.
 - Xcode and an Apple development team for iOS.
 - Your Google Maps SDK keys if you use Explore.
@@ -95,9 +95,10 @@ Then run:
 FLUTTER_DEVICE_ID=YOUR_IOS_DEVICE ./scripts/run-ios.sh
 ```
 
-The script runs `flutter pub get`, refreshes CocoaPods specs, installs the
-pods, and launches Flutter. The project already declares iOS 15.0,
-camera/location usage descriptions, and Google Maps initialization.
+The script runs `flutter pub get` and launches Flutter. Flutter 3.44+ resolves
+PIKDARKit from the versioned GCS XCFramework through Swift Package Manager. The
+project already declares iOS 15.0, camera/location usage descriptions, and
+Google Maps initialization.
 
 ## 4. Run on Android
 
@@ -126,9 +127,11 @@ dependency setup and launches Flutter with the ignored PIKD configuration.
 Running `flutter run` manually with
 `--dart-define-from-file=config/pikd.local.json` remains supported.
 
-The demo already uses `PikdFlutterActivity`, API 24, camera/location permissions,
-and the renderer configuration required to show Flutter controls over the AR
-camera.
+The demo already uses `FlutterFragmentActivity`, API 24, camera/location
+permissions, and the renderer configuration required to show Flutter controls
+over the AR camera. PIKD does not require a custom activity; use
+`FlutterFragmentActivity` when your app also uses AndroidX FragmentActivity
+plugins such as `local_auth` biometrics.
 
 ## 5. Verify the PIKD flow
 
@@ -166,9 +169,10 @@ lib/tab_bar.dart                      demo navigation shell
 | Map works but no collectible appears | Use the test coordinate PIKD gave you after configuring your supplied asset and location. |
 | No Collect action | Move within range or use the demo QA radius control. |
 | AR camera does not open | Use a physical supported device and grant camera/location permissions. |
-| Camera appears without Flutter controls on Android | Confirm the host activity extends `PikdFlutterActivity`; this demo already does. |
+| Camera appears without Flutter controls on Android | Confirm the app uses Flutter's default renderer configuration. PIKD does not require a custom activity; use `FlutterFragmentActivity` when another plugin, such as `local_auth`, requires it. |
 | Flutter controls appear over a black Android camera | Confirm the device supports ARCore and no other expensive platform view is mounted behind AR. |
-| CocoaPods cannot find `PIKDARKit` | Run `cd ios && pod install --repo-update`; the iOS runner already does this automatically. |
+| Flutter reports a SwiftPM or PIKDARKit error | Confirm `flutter --version` is 3.44 or newer, then run the iOS script again so Flutter regenerates its SwiftPM integration. |
+| Flutter warns that `google_maps_flutter_ios` lacks SwiftPM support | This is an upstream Google Maps plugin warning, not a PIKD failure. Flutter currently falls back to CocoaPods for that plugin; keep the plugin current and track its SwiftPM migration before a future Flutter release makes the warning an error. |
 
 ## Credentials and license
 
