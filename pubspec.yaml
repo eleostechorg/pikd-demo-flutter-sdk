@@ -5,6 +5,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.10.7
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
@@ -12,17 +13,25 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # PIKD packages resolve from pub.dev for consumer builds.
-  pikd_flutter_ui: ^0.8.0-beta.2
-  pikd_flutter_api: ^0.8.0-beta.2
+  pikd_flutter_ui: ^0.8.0-beta.3
+  pikd_flutter_api: ^0.8.0-beta.3
   geolocator: ^14.0.3
   # AR binding — example-only, to demo the Explore -> AR collect hand-off.
   # (pikd_flutter_ui itself stays AR-agnostic; the host wires the callbacks.)
-  pikd_flutter_ar: ^0.8.0-beta.2
+  pikd_flutter_ar: ^0.8.0-beta.3
   # Brand glyphs for the AR collect chrome (RN camera parity).
   flutter_svg: ^2.0.10+1
   # Radar loader animation (RN camera assetLoaderOverlay parity); reuses the
   # radar.json bundled in the pikd_flutter_ui package.
   lottie: ^3.3.3
+  # Android-only debug regression fixture. It verifies that a host using
+  # FlutterFragmentActivity for biometric authentication can still enter, leave,
+  # and re-enter PIKD AR. It is not an SDK dependency or product UI.
+  #
+  # Do not use the federated `local_auth` umbrella package here: it adds its
+  # Darwin implementation to an iOS SwiftPM graph even though this fixture is
+  # Android-only.
+  local_auth_android: ^1.0.56
 
 dev_dependencies:
   flutter_test:

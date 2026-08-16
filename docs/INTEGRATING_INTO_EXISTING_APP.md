@@ -8,13 +8,13 @@ only the PIKD packages required by the selected experience.
 ```yaml
 dependencies:
   # Typed access to the PIKD backend.
-  pikd_flutter_api: ^0.8.0-beta.2
+  pikd_flutter_api: ^0.8.0-beta.3
 
   # Native AR bridge. Include only when the app presents PIKD AR.
-  pikd_flutter_ar: ^0.8.0-beta.2
+  pikd_flutter_ar: ^0.8.0-beta.3
 
   # Optional prebuilt Challenges, Explore, Leaderboard, Profile, and Feed UI.
-  pikd_flutter_ui: ^0.8.0-beta.2
+  pikd_flutter_ui: ^0.8.0-beta.3
 ```
 
 Run `flutter pub get`. Use the published package versions shown above, unless
@@ -26,15 +26,23 @@ PIKD has explicitly provided a newer release for your integration.
 
 - Set `minSdk` to 24 or later and use JDK 17.
 - Keep `google()` and `mavenCentral()` in dependency repositories.
-- If presenting `PikdArView`, extend the activity supplied by the plugin:
+- `PikdArView` does not require a PIKD-specific Android activity. Keep your
+  existing host activity. If your app uses an AndroidX FragmentActivity plugin
+  such as biometric authentication with `local_auth`, extend
+  `FlutterFragmentActivity`:
 
 ```kotlin
 package com.example.partner
 
-import app.pikd.flutter.ar.PikdFlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : PikdFlutterActivity()
+class MainActivity : FlutterFragmentActivity()
 ```
+
+  PIKD preserves the AndroidX lifecycle, ViewModel, and saved-state owners
+  provided by `FlutterFragmentActivity`, so biometric and AR flows can coexist.
+  A plain `FlutterActivity` remains supported when your app has no
+  FragmentActivity-based plugin.
 
 - Declare location permissions when using Explore.
 - Configure `com.google.android.geo.API_KEY` with your Maps key.
@@ -45,10 +53,13 @@ class MainActivity : PikdFlutterActivity()
 
 ### iOS
 
-- Set the deployment target to iOS 15.0 or later in both the Xcode project and
-  Podfile.
-- After adding `pikd_flutter_ar`, run `cd ios && pod install --repo-update` so
-  CocoaPods refreshes its public specs before resolving `PIKDARKit`.
+- Use Flutter 3.44 or later. SwiftPM resolves PIKDARKit from the versioned GCS
+  XCFramework.
+- If Flutter warns that `google_maps_flutter_ios` lacks SwiftPM support, the
+  warning comes from that upstream Maps plugin, not PIKD. Flutter currently
+  falls back to CocoaPods for it.
+- Set the deployment target to iOS 15.0 or later in the Xcode project (and in
+  the Podfile too if your app still uses CocoaPods for other plugins).
 - Add `NSCameraUsageDescription` and `NSLocationWhenInUseUsageDescription`.
 - If using Explore, initialize Google Maps with your Maps iOS key.
 - Use a physical device for ARKit verification.
