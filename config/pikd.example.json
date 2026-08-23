@@ -2,5 +2,6 @@
   "PIKD_BASE": "https://provided-by-pikd.example/api/sdk/v1",
   "PIKD_SDK_KEY": "provided-by-pikd",
   "PIKD_USER": "your-opaque-test-user-reference",
-  "PIKD_LANGUAGE_REF": "provided-by-pikd"
+  "PIKD_UI_LOCALE": "ru",
+  "PIKD_CONTENT_LANGUAGE_REF": "provided-by-pikd"
 }
