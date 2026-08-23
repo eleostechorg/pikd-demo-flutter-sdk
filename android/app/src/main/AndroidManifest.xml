@@ -2,8 +2,6 @@
     <!-- Explore map: show the user's location on the map. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- Debug-only local_auth regression control on the real AR flow. -->
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
     <application
         android:label="PIKD Flutter Demo"
         android:name="${applicationName}"
