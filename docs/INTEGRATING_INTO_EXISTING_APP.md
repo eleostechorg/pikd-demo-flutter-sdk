@@ -9,7 +9,7 @@ Leaderboard, and Profile/Inventory screens.
 
 ```yaml
 dependencies:
-  pikd_flutter_experience: ^0.8.0-beta.4
+  pikd_flutter_experience: ^0.8.0-beta.5
 ```
 
 Run `flutter pub get`.
@@ -105,9 +105,9 @@ packages remain available:
 
 ```yaml
 dependencies:
-  pikd_flutter_api: ^0.8.0-beta.4
-  pikd_flutter_ui: ^0.8.0-beta.4
-  pikd_flutter_ar: ^0.8.0-beta.4
+  pikd_flutter_api: ^0.8.0-beta.5
+  pikd_flutter_ui: ^0.8.0-beta.5
+  pikd_flutter_ar: ^0.8.0-beta.5
 ```
 
 Those packages expose the typed API client, individual PIKD widgets, and the

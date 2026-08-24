@@ -14,7 +14,7 @@ dependencies:
 
   # The single turnkey PIKD dependency. Its API, UI, AR, location, and visual
   # dependencies resolve transitively from pub.dev.
-  pikd_flutter_experience: ^0.8.0-beta.4
+  pikd_flutter_experience: ^0.8.0-beta.5
 
 dev_dependencies:
   flutter_test:

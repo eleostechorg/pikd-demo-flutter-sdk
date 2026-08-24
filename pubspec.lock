@@ -596,34 +596,34 @@ packages:
     dependency: transitive
     description:
       name: pikd_flutter_api
-      sha256: ef45c2931236319c51f5554fbe0be5aff69028aaa017e004dcdcc50ee989e76e
+      sha256: "50771ca4ca115c15aa189116816978304ceec557326a39b620747ce2a6fb68ef"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.4"
+    version: "0.8.0-beta.5"
   pikd_flutter_ar:
     dependency: transitive
     description:
       name: pikd_flutter_ar
-      sha256: "22ba812525d963389cad44abff9ce80c5609efcc2601c19444823a3d0e3035dc"
+      sha256: "5b7435c0b1a82bff3eb8b7d99442ddd60bbe056290ece066ab0bcf03c2b10d19"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.4"
+    version: "0.8.0-beta.5"
   pikd_flutter_experience:
     dependency: "direct main"
     description:
       name: pikd_flutter_experience
-      sha256: f84ef7ebdc6f9ef739c41d450a86d3766796e0ad0d809de93d8542838ad920e6
+      sha256: "941e5ab5c89d1fddaab04e2c2ed56593a9a2fa5a550aeeddb1bc8e0d7d4077fc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.4"
+    version: "0.8.0-beta.5"
   pikd_flutter_ui:
     dependency: transitive
     description:
       name: pikd_flutter_ui
-      sha256: caccec656ecc09cd64601ddd149133524244cecdff8d0cc1d67a47384cffd81a
+      sha256: b066b45b6f0e9898d49aeb65b9758ea2eca022c42f0d100e1d70f3f7ff3f12e8
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.4"
+    version: "0.8.0-beta.5"
   platform:
     dependency: transitive
     description:
