@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pikd_flutter_experience/pikd_flutter_experience.dart';
+import 'package:pikd_flutter_magnum_experience/pikd_flutter_magnum_experience.dart';
 
 /// Local values are supplied with `--dart-define-from-file`. The demo does not
 /// contain a fallback tenant or fabricated data, so an incomplete setup is
@@ -70,6 +70,10 @@ class _DemoStrings {
     required this.openPikd,
     required this.configurationRequired,
     required this.configurationDescription,
+    required this.experienceUnavailable,
+    required this.singleActiveChallengeRequired,
+    required this.tryAgainLater,
+    required this.close,
   });
 
   final String appTitle;
@@ -78,37 +82,56 @@ class _DemoStrings {
   final String openPikd;
   final String configurationRequired;
   final String configurationDescription;
+  final String experienceUnavailable;
+  final String singleActiveChallengeRequired;
+  final String tryAgainLater;
+  final String close;
 
   static _DemoStrings forLocale(PikdLocale? locale) => switch (locale) {
     PikdLocale.russian => const _DemoStrings(
       appTitle: 'Демонстрация Flutter-опыта PIKD',
       discoverNearby: 'Откройте коллекционные предметы рядом с вами',
       experienceDescription:
-          'Откройте полный опыт PIKD: Исследование, сбор в AR, таблица лидеров и профиль.',
+          'Откройте полный опыт PIKD: Исследование, механика, сбор в AR, рейтинг и мои коллекции.',
       openPikd: 'Открыть PIKD',
       configurationRequired: 'Требуется настройка',
       configurationDescription:
           'Скопируйте config/pikd.example.json в config/pikd.local.json и укажите:',
+      experienceUnavailable: 'Опыт PIKD недоступен',
+      singleActiveChallengeRequired:
+          'PIKD можно открыть, когда для арендатора активен ровно один челлендж. Обратитесь в PIKD.',
+      tryAgainLater: 'PIKD сейчас не удаётся открыть. Повторите попытку позже.',
+      close: 'Закрыть',
     ),
     PikdLocale.kazakh => const _DemoStrings(
       appTitle: 'Демо Flutter тәжірибесі PIKD',
       discoverNearby: 'Жақын маңдағы коллекциялық заттарды табыңыз',
       experienceDescription:
-          'PIKD-тің толық тәжірибесін ашыңыз: зерттеу, AR арқылы жинау, көшбасшылар тақтасы және профиль.',
+          'PIKD-тің толық тәжірибесін ашыңыз: зерттеу, механика, AR арқылы жинау, рейтинг және менің коллекцияларым.',
       openPikd: 'PIKD ашу',
       configurationRequired: 'Конфигурация қажет',
       configurationDescription:
           'config/pikd.example.json файлын config/pikd.local.json ретінде көшіріп, мыналарды толтырыңыз:',
+      experienceUnavailable: 'PIKD тәжірибесі қолжетімсіз',
+      singleActiveChallengeRequired:
+          'PIKD қызметін жалға алушы үшін дәл бір белсенді челлендж болғанда ашуға болады. PIKD компаниясына хабарласыңыз.',
+      tryAgainLater: 'PIKD қазір ашылмады. Кейінірек қайталап көріңіз.',
+      close: 'Жабу',
     ),
     _ => const _DemoStrings(
       appTitle: 'PIKD Flutter experience demo',
       discoverNearby: 'Discover collectibles around you',
       experienceDescription:
-          'Open the complete PIKD experience: Explore, AR Collect, leaderboard, and profile.',
+          'Open the complete PIKD experience: Explore, Mechanics, AR Collect, leaderboard, and My Collections.',
       openPikd: 'Open PIKD',
       configurationRequired: 'Configuration required',
       configurationDescription:
           'Copy config/pikd.example.json to config/pikd.local.json and provide:',
+      experienceUnavailable: 'PIKD experience unavailable',
+      singleActiveChallengeRequired:
+          'PIKD can open when this tenant has exactly one active challenge. Please contact PIKD.',
+      tryAgainLater: 'PIKD could not open right now. Please try again later.',
+      close: 'Close',
     ),
   };
 }
@@ -138,16 +161,48 @@ class _DemoHome extends StatelessWidget {
     if (_uiLocale == null) 'PIKD_UI_LOCALE (ru or kk)',
   ];
 
-  Future<void> _open(BuildContext context) => PikdFlutterExperience.open(
-    context,
-    configuration: PikdFlutterExperienceConfiguration(
-      baseUrl: _baseUrl,
-      sdkKey: _sdkKey,
-      userRef: _userRef,
-      locale: _uiLocale ?? PikdLocale.russian,
-      contentLanguageRef: _contentLanguageRef,
-      collectRadiusMeters: _collectRadiusMeters,
-      theme: _magnumTheme,
+  Future<void> _open(BuildContext context, _DemoStrings strings) async {
+    try {
+      await PikdMagnumExperience.open(
+        context,
+        configuration: PikdMagnumExperienceConfiguration(
+          baseUrl: _baseUrl,
+          sdkKey: _sdkKey,
+          userRef: _userRef,
+          locale: _uiLocale ?? PikdLocale.russian,
+          contentLanguageRef: _contentLanguageRef,
+          collectRadiusMeters: _collectRadiusMeters,
+          theme: _magnumTheme,
+        ),
+      );
+    } on StateError catch (error) {
+      if (!context.mounted) return;
+      final message = error.message.toString().contains('active challenge')
+          ? strings.singleActiveChallengeRequired
+          : strings.tryAgainLater;
+      await _showLaunchError(context, strings, message);
+    } catch (error, stackTrace) {
+      debugPrint('PIKD launch failed: $error\n$stackTrace');
+      if (!context.mounted) return;
+      await _showLaunchError(context, strings, strings.tryAgainLater);
+    }
+  }
+
+  Future<void> _showLaunchError(
+    BuildContext context,
+    _DemoStrings strings,
+    String message,
+  ) => showDialog<void>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      title: Text(strings.experienceUnavailable),
+      content: Text(message),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(dialogContext).pop(),
+          child: Text(strings.close),
+        ),
+      ],
     ),
   );
 
@@ -166,7 +221,7 @@ class _DemoHome extends StatelessWidget {
               child: missing.isNotEmpty
                   ? _MissingConfiguration(values: missing, strings: strings)
                   : _PikdLaunchCard(
-                      onOpen: () => _open(context),
+                      onOpen: () => _open(context, strings),
                       strings: strings,
                     ),
             ),
@@ -177,11 +232,28 @@ class _DemoHome extends StatelessWidget {
   }
 }
 
-class _PikdLaunchCard extends StatelessWidget {
+class _PikdLaunchCard extends StatefulWidget {
   const _PikdLaunchCard({required this.onOpen, required this.strings});
 
-  final VoidCallback onOpen;
+  final Future<void> Function() onOpen;
   final _DemoStrings strings;
+
+  @override
+  State<_PikdLaunchCard> createState() => _PikdLaunchCardState();
+}
+
+class _PikdLaunchCardState extends State<_PikdLaunchCard> {
+  bool _opening = false;
+
+  Future<void> _open() async {
+    if (_opening) return;
+    setState(() => _opening = true);
+    try {
+      await widget.onOpen();
+    } finally {
+      if (mounted) setState(() => _opening = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -207,14 +279,14 @@ class _PikdLaunchCard extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            strings.discoverNearby,
+            widget.strings.discoverNearby,
             style: _magnumTheme.typography.headingL.copyWith(
               color: _magnumTheme.colors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            strings.experienceDescription,
+            widget.strings.experienceDescription,
             style: _magnumTheme.typography.body.copyWith(
               color: _magnumTheme.colors.textSecondary,
             ),
@@ -223,9 +295,15 @@ class _PikdLaunchCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton.icon(
-              onPressed: onOpen,
-              icon: const Icon(Icons.explore_outlined),
-              label: Text(strings.openPikd),
+              onPressed: _opening ? null : _open,
+              icon: _opening
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.explore_outlined),
+              label: Text(widget.strings.openPikd),
               style: FilledButton.styleFrom(
                 backgroundColor: _magnumTheme.colors.primary,
                 foregroundColor: _magnumTheme.colors.onPrimary,
