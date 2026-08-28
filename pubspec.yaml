@@ -12,9 +12,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
 
-  # The single turnkey PIKD dependency. Its API, UI, AR, location, and visual
-  # dependencies resolve transitively from pub.dev.
-  pikd_flutter_experience: ^0.8.0-beta.5
+  # Magnum's single-campaign turnkey PIKD dependency. Its generic experience,
+  # API, UI, AR, location, and visual dependencies resolve transitively.
+  pikd_flutter_magnum_experience: ^0.8.0-beta.6
 
 dev_dependencies:
   flutter_test:
