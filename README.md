@@ -1,8 +1,9 @@
 # PIKD Flutter experience demo
 
-This runnable app shows the intended host integration: your app presents a
-PIKD entry point, then `pikd_flutter_experience` owns the complete PIKD
-journey — Explore, AR collection, Leaderboard, and Profile/Inventory.
+This runnable app shows Magnum's intended host integration: your app presents
+a PIKD entry point, then `pikd_flutter_magnum_experience` owns the complete
+PIKD journey — single-challenge Explore, Mechanics, AR collection, Leaderboard,
+and My Collections.
 
 Use it to validate your environment before adding PIKD to an existing Flutter
 application. For the integration steps, see
@@ -41,6 +42,10 @@ cp config/pikd.example.json config/pikd.local.json
 Fill `config/pikd.local.json` with the five PIKD values. It is ignored by Git;
 do not commit it. `PIKD_USER` should be an opaque ID from your user system, not
 an email address or other PII.
+
+Magnum's facade resolves the tenant's one active challenge at launch and uses
+the backend challenge name throughout the experience. A new active challenge
+therefore requires no app rebuild and no challenge metadata in this file.
 
 The demo launch card follows `PIKD_UI_LOCALE` too. In your app, replace that
 card with your own localized PIKD entry point; keep `PIKD` as the product name.
@@ -101,11 +106,16 @@ that also uses AndroidX FragmentActivity plugins such as `local_auth`.
 
 1. Select **Open PIKD**.
 2. In Explore, allow location access and confirm the map loads.
-3. Select an available collectible and choose **Collect** when you are in range.
-4. Allow camera access, then confirm the AR camera, 3D asset, and controls
+3. Confirm Explore opens with Magnum's one active challenge already selected;
+   there is no challenge picker or clear button.
+4. Select an available collectible and choose **Collect** when you are in range.
+5. Allow camera access, then confirm the AR camera, 3D asset, and controls
    render.
-5. Collect the asset and confirm the returned result state.
-6. Open Leaderboard and Profile to confirm the user-scoped data is displayed.
+6. Collect the asset and confirm the returned result state.
+7. Open **Mechanics**, **Leaderboard**, and **My Collections**. Mechanics must
+   open the active challenge directly with no comments; Leaderboard must not show
+   raw user references or avatar slots; My Collections must show owned items
+   directly without profile details or tabs.
 
 The SDK’s collection radius is 5 metres. PIKD enables the tenant content used
 for your evaluation; if nothing appears on the map, contact PIKD with your test

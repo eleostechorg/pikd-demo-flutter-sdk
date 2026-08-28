@@ -1,15 +1,15 @@
 # Integrating PIKD into an existing Flutter app
 
-For the full PIKD experience, use the turnkey facade. Your app authenticates
-the user, supplies tenant configuration, presents a PIKD entry point, and
-receives control again when PIKD closes. The SDK owns its Explore, AR/Collect,
-Leaderboard, and Profile/Inventory screens.
+For Magnum's full PIKD campaign experience, use the turnkey facade. Your app
+authenticates the user, supplies tenant configuration, presents a PIKD entry
+point, and receives control again when PIKD closes. The SDK owns fixed-campaign
+Explore, Mechanics, AR/Collect, Leaderboard, and My Collections.
 
 ## 1. Add the turnkey package
 
 ```yaml
 dependencies:
-  pikd_flutter_experience: ^0.8.0-beta.5
+  pikd_flutter_magnum_experience: ^0.8.0-beta.6
 ```
 
 Run `flutter pub get`.
@@ -47,12 +47,12 @@ Build the launch configuration after your user has authenticated. `userRef`
 must be a stable, opaque string; an integer client ID should use `toString()`.
 
 ```dart
-import 'package:pikd_flutter_experience/pikd_flutter_experience.dart';
+import 'package:pikd_flutter_magnum_experience/pikd_flutter_magnum_experience.dart';
 
 Future<void> openPikd(BuildContext context, int clientId) {
-  return PikdFlutterExperience.open(
+  return PikdMagnumExperience.open(
     context,
-    configuration: PikdFlutterExperienceConfiguration(
+    configuration: PikdMagnumExperienceConfiguration(
       baseUrl: pikdBaseUrl,
       sdkKey: pikdSdkKey,
       userRef: clientId.toString(),
@@ -67,7 +67,14 @@ Future<void> openPikd(BuildContext context, int clientId) {
 ```
 
 The returned `Future` completes when the user closes PIKD. There is no global
-initialization step, so the current user is explicit on every launch.
+initialization step, so the current user is explicit on every launch. Magnum's
+tenant exposes exactly one active challenge; the facade resolves it from PIKD
+at launch, including its backend title. It removes the entire challenge-picker
+row, opens Mechanics directly to that challenge's detail, removes campaign
+comments, hides leaderboard avatars, and uses localized participant labels for
+non-current ranks. It exposes My Collections as a direct item grid. A new active
+challenge requires
+no host-app rebuild.
 
 Your PIKD banner or launch button remains host-app UI. Localize that entry point
 with your app, while keeping `PIKD` as the product name.
@@ -105,9 +112,9 @@ packages remain available:
 
 ```yaml
 dependencies:
-  pikd_flutter_api: ^0.8.0-beta.5
-  pikd_flutter_ui: ^0.8.0-beta.5
-  pikd_flutter_ar: ^0.8.0-beta.5
+  pikd_flutter_api: ^0.8.0-beta.6
+  pikd_flutter_ui: ^0.8.0-beta.6
+  pikd_flutter_ar: ^0.8.0-beta.6
 ```
 
 Those packages expose the typed API client, individual PIKD widgets, and the
