@@ -14,7 +14,7 @@ dependencies:
 
   # Magnum's single-campaign turnkey PIKD dependency. Its generic experience,
   # API, UI, AR, location, and visual dependencies resolve transitively.
-  pikd_flutter_magnum_experience: ^0.8.0-beta.6
+  pikd_flutter_magnum_experience: ^0.8.0-beta.7
 
 dev_dependencies:
   flutter_test:
