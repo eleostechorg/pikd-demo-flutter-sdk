@@ -9,7 +9,7 @@ Explore, Mechanics, AR/Collect, Leaderboard, and My Collections.
 
 ```yaml
 dependencies:
-  pikd_flutter_magnum_experience: ^0.8.0-beta.8
+  pikd_flutter_magnum_experience: ^0.8.0-beta.9
 ```
 
 Run `flutter pub get`.
@@ -118,9 +118,9 @@ packages remain available:
 
 ```yaml
 dependencies:
-  pikd_flutter_api: ^0.8.0-beta.8
-  pikd_flutter_ui: ^0.8.0-beta.8
-  pikd_flutter_ar: ^0.8.0-beta.8
+  pikd_flutter_api: ^0.8.0-beta.9
+  pikd_flutter_ui: ^0.8.0-beta.9
+  pikd_flutter_ar: ^0.8.0-beta.9
 ```
 
 Those packages expose the typed API client, individual PIKD widgets, and the
