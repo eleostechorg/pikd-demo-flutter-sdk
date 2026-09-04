@@ -100,7 +100,9 @@ FLUTTER_DEVICE_ID=YOUR_ANDROID_DEVICE ./scripts/run-android.sh
 
 The demo uses `FlutterFragmentActivity`, API 24, and the camera/location
 permissions required by AR. You can retain `FlutterFragmentActivity` in an app
-that also uses AndroidX FragmentActivity plugins such as `local_auth`.
+that also uses AndroidX FragmentActivity plugins such as `local_auth`. When AR
+opens, the SDK automatically checks Google Play Services for AR and offers its
+standard install/update flow where required.
 
 ## 4. Verify the PIKD flow
 

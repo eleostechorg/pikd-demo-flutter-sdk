@@ -9,7 +9,7 @@ Explore, Mechanics, AR/Collect, Leaderboard, and My Collections.
 
 ```yaml
 dependencies:
-  pikd_flutter_magnum_experience: ^0.8.0-beta.6
+  pikd_flutter_magnum_experience: ^0.8.0-beta.8
 ```
 
 Run `flutter pub get`.
@@ -32,6 +32,12 @@ import io.flutter.embedding.android.FlutterFragmentActivity
 
 class MainActivity : FlutterFragmentActivity()
 ```
+
+ARCore remains optional for your app. When a user opens the AR camera, the SDK
+checks whether Google Play Services for AR is ready and automatically opens
+Google's standard install or update flow when needed. Do not add a separate
+ARCore preflight. If the component cannot be installed or the device is not
+supported, PIKD shows a recovery screen and returns the user to the map.
 
 ### iOS
 
@@ -112,9 +118,9 @@ packages remain available:
 
 ```yaml
 dependencies:
-  pikd_flutter_api: ^0.8.0-beta.6
-  pikd_flutter_ui: ^0.8.0-beta.6
-  pikd_flutter_ar: ^0.8.0-beta.6
+  pikd_flutter_api: ^0.8.0-beta.8
+  pikd_flutter_ui: ^0.8.0-beta.8
+  pikd_flutter_ar: ^0.8.0-beta.8
 ```
 
 Those packages expose the typed API client, individual PIKD widgets, and the
