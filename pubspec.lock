@@ -596,42 +596,42 @@ packages:
     dependency: transitive
     description:
       name: pikd_flutter_api
-      sha256: d46223beaf61c24ff0694e3b44023a415a148893f81ff1c65981f2584ec60449
+      sha256: "497283271e2e05f0aca1ef6e7225df8e8813f0ea5f2d8a3b6068119d3fa827a8"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.8"
+    version: "0.8.0-beta.9"
   pikd_flutter_ar:
     dependency: transitive
     description:
       name: pikd_flutter_ar
-      sha256: e90e13ff7ce1c078772c0a6e33f8f3986844ae91539e5edb12c2f14a4c61fd16
+      sha256: "73093e57589c9667f968b998728641e218ba3272d07b9c3155b18fd2967c0320"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.8"
+    version: "0.8.0-beta.9"
   pikd_flutter_experience:
     dependency: transitive
     description:
       name: pikd_flutter_experience
-      sha256: "19f13fe5f7ef438b0edb10724b8eab0cc122926be493acff22c79184c6282da5"
+      sha256: e84f13b703e9f4534ab78ffe99dd47657325bab82e5579689e78318b9680c707
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.8"
+    version: "0.8.0-beta.9"
   pikd_flutter_magnum_experience:
     dependency: "direct main"
     description:
       name: pikd_flutter_magnum_experience
-      sha256: fe4b9b5c752278a135b447c0b82b8ad73a9ccb4268bdc8c60383c95c582ac9ee
+      sha256: "7c81aef046d3226775d28015f75780d62a47f07bc92bf59977e9abccbec60e50"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.8"
+    version: "0.8.0-beta.9"
   pikd_flutter_ui:
     dependency: transitive
     description:
       name: pikd_flutter_ui
-      sha256: "12ef48a7f98d3e254f07f4771f0be633c3a1fd76815f8a6d28c5bd025d819e11"
+      sha256: f26fc5075fd210588df0f14402113b11587e5b6835d9a4697576e2d68b778201
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.8"
+    version: "0.8.0-beta.9"
   platform:
     dependency: transitive
     description:
