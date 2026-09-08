@@ -7,18 +7,16 @@ import 'package:pikd_flutter_magnum_experience/pikd_flutter_magnum_experience.da
 const _baseUrl = String.fromEnvironment('PIKD_BASE');
 const _sdkKey = String.fromEnvironment('PIKD_SDK_KEY');
 const _userRef = String.fromEnvironment('PIKD_USER');
-// `PIKD_LANGUAGE_REF` is retained only as a local-demo compatibility bridge
-// while existing developers move to the explicit UI/content settings below.
+// `PIKD_LANGUAGE_REF` and `PIKD_UI_LOCALE` can choose the initial dropdown
+// value for existing local setups. The launch screen always lets a tester
+// select Russian, Kazakh, or English without rebuilding the demo.
 const _legacyLanguageRef = String.fromEnvironment('PIKD_LANGUAGE_REF');
-const _contentLanguageRef = String.fromEnvironment(
-  'PIKD_CONTENT_LANGUAGE_REF',
-  defaultValue: _legacyLanguageRef,
-);
 const _uiLocaleValue = String.fromEnvironment(
   'PIKD_UI_LOCALE',
   defaultValue: _legacyLanguageRef,
 );
-final _uiLocale = PikdLocale.tryParse(_uiLocaleValue);
+final _initialUiLocale =
+    PikdLocale.tryParse(_uiLocaleValue) ?? PikdLocale.russian;
 const _collectRadiusMetersValue = String.fromEnvironment(
   'PIKD_DEMO_COLLECT_RADIUS_M',
 );
@@ -73,7 +71,9 @@ class _DemoStrings {
     required this.experienceUnavailable,
     required this.singleActiveChallengeRequired,
     required this.tryAgainLater,
+    required this.unsupportedContentLanguage,
     required this.close,
+    required this.language,
   });
 
   final String appTitle;
@@ -85,9 +85,11 @@ class _DemoStrings {
   final String experienceUnavailable;
   final String singleActiveChallengeRequired;
   final String tryAgainLater;
+  final String unsupportedContentLanguage;
   final String close;
+  final String language;
 
-  static _DemoStrings forLocale(PikdLocale? locale) => switch (locale) {
+  static _DemoStrings forLocale(PikdLocale locale) => switch (locale) {
     PikdLocale.russian => const _DemoStrings(
       appTitle: 'Демонстрация Flutter-опыта PIKD',
       discoverNearby: 'Откройте коллекционные предметы рядом с вами',
@@ -101,7 +103,10 @@ class _DemoStrings {
       singleActiveChallengeRequired:
           'PIKD можно открыть, когда для арендатора активен ровно один челлендж. Обратитесь в PIKD.',
       tryAgainLater: 'PIKD сейчас не удаётся открыть. Повторите попытку позже.',
+      unsupportedContentLanguage:
+          'Контент Magnum недоступен на английском. Выберите русский или казахский.',
       close: 'Закрыть',
+      language: 'Язык',
     ),
     PikdLocale.kazakh => const _DemoStrings(
       appTitle: 'Демо Flutter тәжірибесі PIKD',
@@ -116,7 +121,10 @@ class _DemoStrings {
       singleActiveChallengeRequired:
           'PIKD қызметін жалға алушы үшін дәл бір белсенді челлендж болғанда ашуға болады. PIKD компаниясына хабарласыңыз.',
       tryAgainLater: 'PIKD қазір ашылмады. Кейінірек қайталап көріңіз.',
+      unsupportedContentLanguage:
+          'Magnum мазмұны ағылшын тілінде қолжетімсіз. Орыс немесе қазақ тілін таңдаңыз.',
       close: 'Жабу',
+      language: 'Тіл',
     ),
     _ => const _DemoStrings(
       appTitle: 'PIKD Flutter experience demo',
@@ -131,7 +139,10 @@ class _DemoStrings {
       singleActiveChallengeRequired:
           'PIKD can open when this tenant has exactly one active challenge. Please contact PIKD.',
       tryAgainLater: 'PIKD could not open right now. Please try again later.',
+      unsupportedContentLanguage:
+          'Magnum content is unavailable in English. Select Russian or Kazakh.',
       close: 'Close',
+      language: 'Language',
     ),
   };
 }
@@ -139,26 +150,41 @@ class _DemoStrings {
 void main() => runApp(const PikdExperienceDemoApp());
 
 class PikdExperienceDemoApp extends StatelessWidget {
-  const PikdExperienceDemoApp({super.key});
+  const PikdExperienceDemoApp({super.key, this.initialLocale});
+
+  final PikdLocale? initialLocale;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: _DemoStrings.forLocale(_uiLocale).appTitle,
+    title: _DemoStrings.forLocale(initialLocale ?? _initialUiLocale).appTitle,
     debugShowCheckedModeBanner: false,
     theme: ThemeData.dark(useMaterial3: true),
-    home: const _DemoHome(),
+    home: _DemoHome(initialLocale: initialLocale ?? _initialUiLocale),
   );
 }
 
-class _DemoHome extends StatelessWidget {
-  const _DemoHome();
+class _DemoHome extends StatefulWidget {
+  const _DemoHome({required this.initialLocale});
+
+  final PikdLocale initialLocale;
+
+  @override
+  State<_DemoHome> createState() => _DemoHomeState();
+}
+
+class _DemoHomeState extends State<_DemoHome> {
+  late PikdLocale _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = widget.initialLocale;
+  }
 
   List<String> get _missing => [
     if (_baseUrl.trim().isEmpty) 'PIKD_BASE',
     if (_sdkKey.trim().isEmpty) 'PIKD_SDK_KEY',
     if (_userRef.trim().isEmpty) 'PIKD_USER',
-    if (_contentLanguageRef.trim().isEmpty) 'PIKD_CONTENT_LANGUAGE_REF',
-    if (_uiLocale == null) 'PIKD_UI_LOCALE (ru or kk)',
   ];
 
   Future<void> _open(BuildContext context, _DemoStrings strings) async {
@@ -169,8 +195,8 @@ class _DemoHome extends StatelessWidget {
           baseUrl: _baseUrl,
           sdkKey: _sdkKey,
           userRef: _userRef,
-          locale: _uiLocale ?? PikdLocale.russian,
-          contentLanguageRef: _contentLanguageRef,
+          locale: _locale,
+          contentLanguageRef: _locale.languageCode,
           collectRadiusMeters: _collectRadiusMeters,
           theme: _magnumTheme,
         ),
@@ -181,6 +207,13 @@ class _DemoHome extends StatelessWidget {
           ? strings.singleActiveChallengeRequired
           : strings.tryAgainLater;
       await _showLaunchError(context, strings, message);
+    } on UnsupportedError {
+      if (!context.mounted) return;
+      await _showLaunchError(
+        context,
+        strings,
+        strings.unsupportedContentLanguage,
+      );
     } catch (error, stackTrace) {
       debugPrint('PIKD launch failed: $error\n$stackTrace');
       if (!context.mounted) return;
@@ -209,7 +242,7 @@ class _DemoHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final missing = _missing;
-    final strings = _DemoStrings.forLocale(_uiLocale);
+    final strings = _DemoStrings.forLocale(_locale);
     return Scaffold(
       backgroundColor: _magnumTheme.colors.background,
       body: SafeArea(
@@ -218,18 +251,80 @@ class _DemoHome extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 460),
-              child: missing.isNotEmpty
-                  ? _MissingConfiguration(values: missing, strings: strings)
-                  : _PikdLaunchCard(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _DemoLanguageSelector(
+                    locale: _locale,
+                    label: strings.language,
+                    onChanged: (locale) => setState(() => _locale = locale),
+                  ),
+                  const SizedBox(height: 16),
+                  if (missing.isNotEmpty)
+                    _MissingConfiguration(values: missing, strings: strings)
+                  else
+                    _PikdLaunchCard(
                       onOpen: () => _open(context, strings),
                       strings: strings,
                     ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+class _DemoLanguageSelector extends StatelessWidget {
+  const _DemoLanguageSelector({
+    required this.locale,
+    required this.label,
+    required this.onChanged,
+  });
+
+  final PikdLocale locale;
+  final String label;
+  final ValueChanged<PikdLocale> onChanged;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
+      color: _magnumTheme.colors.surface,
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(color: _magnumTheme.colors.border),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: DropdownButtonFormField<PikdLocale>(
+        key: const Key('demo-language-selector'),
+        initialValue: locale,
+        isExpanded: true,
+        decoration: InputDecoration(
+          labelText: label,
+          border: InputBorder.none,
+        ),
+        items: const [
+          DropdownMenuItem(
+            value: PikdLocale.russian,
+            child: Text('Русский'),
+          ),
+          DropdownMenuItem(
+            value: PikdLocale.kazakh,
+            child: Text('Қазақша'),
+          ),
+          DropdownMenuItem(
+            value: PikdLocale.english,
+            child: Text('English'),
+          ),
+        ],
+        onChanged: (locale) {
+          if (locale != null) onChanged(locale);
+        },
+      ),
+    ),
+  );
 }
 
 class _PikdLaunchCard extends StatefulWidget {

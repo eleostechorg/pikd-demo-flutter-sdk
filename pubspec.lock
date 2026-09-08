@@ -324,10 +324,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_web
-      sha256: "29f056fae0e923e81fe4e76e6cc147209b11c18ba67d0bf2e1579abffa1a48dc"
+      sha256: "903db0e985e831d3883cf0971dd5b4dbee83468b748c3753dc94da0e9a269b93"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.3"
+    version: "0.6.3+1"
   gsettings:
     dependency: transitive
     description:
@@ -596,50 +596,50 @@ packages:
     dependency: transitive
     description:
       name: pikd_flutter_api
-      sha256: "497283271e2e05f0aca1ef6e7225df8e8813f0ea5f2d8a3b6068119d3fa827a8"
+      sha256: e011412668682bd6154511055d2a17e1544120e542b2f87e798f6dde4f08d5e1
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.9"
+    version: "0.8.0-beta.10"
   pikd_flutter_ar:
     dependency: transitive
     description:
       name: pikd_flutter_ar
-      sha256: "73093e57589c9667f968b998728641e218ba3272d07b9c3155b18fd2967c0320"
+      sha256: "18b48a8b6253ed2bf64899066c1e1815c4e36d975555a1b35e65b323aa37be35"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.9"
+    version: "0.8.0-beta.10"
   pikd_flutter_experience:
     dependency: transitive
     description:
       name: pikd_flutter_experience
-      sha256: e84f13b703e9f4534ab78ffe99dd47657325bab82e5579689e78318b9680c707
+      sha256: adad9855602a56c4e0e1c2333fca862664dca7ff1524e0d872b56b84dca4067a
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.9"
+    version: "0.8.0-beta.10"
   pikd_flutter_magnum_experience:
     dependency: "direct main"
     description:
       name: pikd_flutter_magnum_experience
-      sha256: "7c81aef046d3226775d28015f75780d62a47f07bc92bf59977e9abccbec60e50"
+      sha256: eed393d5c01a483dbb93aef625a60bfadb2ed9a394b9ec9b4cf8a4c4e9c0e3f6
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.9"
+    version: "0.8.0-beta.10"
   pikd_flutter_ui:
     dependency: transitive
     description:
       name: pikd_flutter_ui
-      sha256: f26fc5075fd210588df0f14402113b11587e5b6835d9a4697576e2d68b778201
+      sha256: "4edad7f3c95aeb05b648079989840af214688a4261b4610d9bc0ec0e2cc5075b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.9"
+    version: "0.8.0-beta.10"
   platform:
     dependency: transitive
     description:
       name: platform
-      sha256: "5d6b1b0036a5f331ebc77c850ebc8506cbc1e9416c27e59b439f917a902a4984"
+      sha256: a36d119c13416516a7b5913fbe8af8531e11633d784c550b2125f76c758524ec
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.6"
+    version: "3.2.0"
   plugin_platform_interface:
     dependency: transitive
     description:
