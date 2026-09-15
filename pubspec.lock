@@ -316,10 +316,10 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
-      sha256: "574d35a89847731b10cd93e18e9374c8fcd30c6a868255f70bf7196ad71cdfb9"
+      sha256: "742e86787abac8b08352aaf31b2d1fffc77038ab2e9ebd8d4d7013eec9e97218"
       url: "https://pub.dev"
     source: hosted
-    version: "2.16.1"
+    version: "2.17.0"
   google_maps_flutter_web:
     dependency: transitive
     description:
@@ -596,42 +596,42 @@ packages:
     dependency: transitive
     description:
       name: pikd_flutter_api
-      sha256: "0b366028be799082e700ecab12ef68615ee3876da9ad69527d05a0a129c7132a"
+      sha256: ccc13d6b7ba5372b6d60f79678380a239b383a701d76d15678a25bde87b8f87d
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.13"
+    version: "0.8.0-beta.14"
   pikd_flutter_ar:
     dependency: transitive
     description:
       name: pikd_flutter_ar
-      sha256: c6bd0b3c57a8ae253b2b3584cd210efe4b1fb7037a38315ec7daf4d694e742a4
+      sha256: "61c3027491844a6aee87d388a15ca47cea7f3e01613212ac8eaf549d1e985d47"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.13"
+    version: "0.8.0-beta.14"
   pikd_flutter_experience:
     dependency: transitive
     description:
       name: pikd_flutter_experience
-      sha256: e1e14730d6ad5ab3f5f0de70d39fedabc3ba3d133c22360901f4ef12149ae721
+      sha256: "797057870c2803c29db30db310e29d4bc71ef026b31d6c01a0c98b933e11c130"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.13"
+    version: "0.8.0-beta.14"
   pikd_flutter_magnum_experience:
     dependency: "direct main"
     description:
       name: pikd_flutter_magnum_experience
-      sha256: "67ca84430faf6f7bdc8a7b55a4374e801740607a7961f4c19f545e26f9c42a8e"
+      sha256: "329ac7e32f05bd3f56a4bebe217ad96780f41ce052be04c22a1f42168008e078"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.13"
+    version: "0.8.0-beta.14"
   pikd_flutter_ui:
     dependency: transitive
     description:
       name: pikd_flutter_ui
-      sha256: "43c5d487041d264ff9455e2564bc7c23e7babe95617f2918ebc01c939e02250b"
+      sha256: "70fd8408f695f83a47e69fbd5b3e063f0ffb57c070c97ecbc26192732f66bee5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0-beta.13"
+    version: "0.8.0-beta.14"
   platform:
     dependency: transitive
     description:
@@ -721,10 +721,10 @@ packages:
     dependency: transitive
     description:
       name: sqflite_common
-      sha256: b3ebf7b30c8ae279615f146dfc29ea6ba097299294193107c85a7531ec2346d9
+      sha256: "077e38e82c099534146a2fb31b608c2a3a4489a0f21d9af6b2f5c87b566a1ea0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.12"
+    version: "2.5.13"
   sqflite_darwin:
     dependency: transitive
     description:
