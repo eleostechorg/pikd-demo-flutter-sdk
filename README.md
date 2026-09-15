@@ -116,8 +116,8 @@ standard install/update flow where required.
 6. Collect the asset and confirm the returned result state.
 7. Open **Mechanics**, **Leaderboard**, and **My Collections**. Mechanics must
    open the active challenge directly with no comments; Leaderboard must not show
-   raw user references or avatar slots; My Collections must show owned items
-   directly without profile details or tabs.
+   raw user references, avatar slots, or a player count; My Collections must
+   show owned items directly without profile details or tabs.
 
 The SDK’s collection radius is 5 metres. PIKD enables the tenant content used
 for your evaluation; if nothing appears on the map, contact PIKD with your test
